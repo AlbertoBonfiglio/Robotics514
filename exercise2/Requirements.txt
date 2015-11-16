@@ -1,0 +1,13 @@
+1)  Write a node that reads in a set of positions in the map from a file,
+    and then drives the robot to each of these positions in turn, using the navigation code in ROS.
+    When it is done, it should return to the first position again, and start the process over again.
+    You should use rviz markers to show the points in the list.
+
+2) Modify your code so that the robot does something interesting when it reaches each of the points in the file.
+    We'll leave the definition of "interesting" up to you, but here are some suggestions: take a picture;
+    record some sensor data to a file; do a little dance.
+
+3)  Write some more code to allow you to preempt the robot's behavior.
+    When you press the "h" key, the robot should return to the starting point,
+    and begin their patrol from scratch. When you press the "r" key,
+    the robot should randomize the order of the waypoints in its list.

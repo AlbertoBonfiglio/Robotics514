@@ -1,0 +1,12 @@
+<launch>
+    <include file="$(find turtlebot_stage)/launch/turtlebot_in_stage.launch"/>
+
+    <node pkg="exercise1" name="rampytwister" type="rampytwister.py">
+        <param name="initial_speed" value="0.1"/>
+        <param name="scan_distance" value="0.5"/>
+        <remap from="cmd_vel" to="cmd_vel_mux/input/teleop"/>
+    </node>
+
+     <node pkg="exercise1" name="keylogger" type="keylogger.py" />
+
+</launch>

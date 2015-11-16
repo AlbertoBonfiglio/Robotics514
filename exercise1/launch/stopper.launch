@@ -1,0 +1,15 @@
+<launch>
+
+
+    <include file="$(find exercise1)/launch/turtlebot_in_stage.launch"/>
+
+    <node pkg="exercise1" name="walkabout" type="walkabout.py">
+        <param name="linear_speed" value="0.2"/>
+        <param name="angular_speed" value="0.0"/>
+        <param name="max_distance" value="0.5"/>
+        <param name="yaw" value="20"/>
+        <param name="autostart" value="1" />
+        <remap from="cmd_vel" to="cmd_vel_mux/input/teleop"/>
+    </node>
+
+</launch>

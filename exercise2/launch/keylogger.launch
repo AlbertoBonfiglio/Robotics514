@@ -1,0 +1,4 @@
+<launch>
+    <node name="keylogger" pkg="exercise2" type="keylogger_node_start.py" respawn="false" output="screen" >
+    </node>
+</launch>
