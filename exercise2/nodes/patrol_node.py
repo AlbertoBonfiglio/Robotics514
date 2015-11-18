@@ -56,7 +56,6 @@ class PatrolController(GenericNode):
 
             self.__setMarkers(waypoints)
 
-
             self.__stopFlag = False
             self.__shuffleFlag = False
             self.__isPatrolling = True
