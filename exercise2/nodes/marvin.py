@@ -1,15 +1,10 @@
 #!/usr/bin/env python
 
 import rospy
-import csv
-import pkg_resources
-
-import actionlib
 import random
-import pyttsx
+import subprocess
 
 class Marvin(object):
-    __soundEngine = None
     __sentences = ['I think you ought to know I''m feeling very depressed. ',
                    'You can blame the Sirius Cybernetics Corporation for making androids with Genuine People Personalities. I''m a personality prototype. You can tell, can''t you...? ',
                    'Incredible... it''s even worse than I thought it would be. ',
@@ -30,13 +25,10 @@ class Marvin(object):
 
 
     def __init__(self):
-        self.__soundEngine = pyttsx.init()
-
-
+        pass
 
     def sayRandomSentence(self, halting = False):
         try:
-            self.__soundEngine = pyttsx.init()
 
             sentence = ''
             if halting:
@@ -46,13 +38,11 @@ class Marvin(object):
                 sentenceIndex = random.randint(0, len(self.__sentences)-1)
                 sentence = self.__sentences[sentenceIndex]
 
-            self.__soundEngine.say(sentence)
-            self.__soundEngine.runAndWait()
-            while self.__soundEngine.isBusy():
-                pass
-
+            command = 'espeak "' + sentence + '"'
+            p = subprocess.Popen(command, shell=True)
+            p.communicate()
 
             rospy.loginfo(sentence)
 
         except Exception as ex:
-            rospy.logwarn('MArvin.sayRandomSentence - ', ex.message)
+            rospy.logwarn('Marvin.sayRandomSentence - ', ex.message)
