@@ -36,6 +36,8 @@ class Marvin(object):
 
     def sayRandomSentence(self, halting = False):
         try:
+            self.__soundEngine = pyttsx.init()
+
             sentence = ''
             if halting:
                 sentenceIndex = random.randint(0, len(self.__haltSentences)-1)
@@ -46,6 +48,10 @@ class Marvin(object):
 
             self.__soundEngine.say(sentence)
             self.__soundEngine.runAndWait()
+            while self.__soundEngine.isBusy():
+                pass
+
+
             rospy.loginfo(sentence)
 
         except Exception as ex:
