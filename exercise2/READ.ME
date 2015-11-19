@@ -3,22 +3,27 @@ Disclaimer
     - a possible navigating solution was discusses with Wassim Bech, Fernando De La Garza Arreguin, and the TA.
     - A different implementation was chosen
     - it is assumed that ros indigo is installed and configured ant that the ros environment is correclty
-        sourced when opening a terminal window. Also that the standard python packages including pyttsx
-        are installed and correctly configured
+        sourced when opening a terminal window. 
+    - Make sure the Linux package 'espeak' is installed (sudo apt-get install espeak) configured correctly
+        is installed and correctly configured
 
     INSTRUCTIONS
-
-    - copy src in a working workspace
-    - navigate to the workspace
-    - type source devel/setup.bash
+    - copy src in a working workspace (e.g. /home/john/ws_test)
+    - navigate to the workspace (e.g. cd ~/home/john/ws_test)
+    - source the environment (e.g. source devel/setup.bash)
     - type roslaunch exercise2 system.launch
+    - Robot should load a set of random nodes from the file test.csv and start patrolling
+    
     - type h in the terminal to return home
-    - type r in the terminal to randomize the patrol points
+    - type r in the terminal to return home and randomize the patrol points
 
-    - Make sure to add the MarkerArray to RViz to view the patrol points.
+    - Make sure to add the MarkerArray listening to visualization_marker_array to RViz to view the patrol points.
     - Also make sure the fixed frame in global options is set to map
+    - The markers may not be visible at the start due to what I think is a delay in listening to the 
+      topic. If that is the case please hit the homing (h) button a few times. That will make sure the topic 
+      broadcasted is actually received  
 
-    _ every time the robot reaches a checkpoint it should cite a quote from Marvin (HGTTG)
-    - that's it
+    - every time the robot reaches a checkpoint it should cite a quote from Marvin (HGTTG)
+    - don't follow Marvin into depression.  
 
 
