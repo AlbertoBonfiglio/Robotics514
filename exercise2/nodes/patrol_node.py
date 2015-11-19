@@ -198,16 +198,18 @@ class PatrolController(GenericNode):
 
     def __setMarkers(self, waypoints):
         try:
-            self.__markerArray.markers
+            #self.__markerArray.markers
             rospy.logwarn('Preparing to deploy Markers')
             for n in range(len(waypoints)):
                 waypoint = self.__getGoal(waypoints[n])
-                marker = self.__setMarker(n, waypoint, [1.0, random.uniform(0.0, 1.0), random.uniform(0.0, 1.0), random.uniform(0.0, 1.0)])
 
+                marker = self.__setMarker(n, waypoint, [1.0, random.uniform(0.0, 1.0), random.uniform(0.0, 1.0), random.uniform(0.0, 1.0)])
                 markers = len(self.__markerArray.markers)
                 if markers > len(waypoints):
                         self.__markerArray.markers.pop(0)
                 self.__markerArray.markers.append(marker)
+
+
 
             self.__markerPublisher.publish(self.__markerArray)
 
@@ -226,6 +228,34 @@ class PatrolController(GenericNode):
             marker.id = id
             marker.type = marker.SPHERE
             marker.action = marker.ADD
+            marker.scale.x = 0.2
+            marker.scale.y = 0.2
+            marker.scale.z = 0.2
+            marker.color.a = colors[0]
+            marker.color.r = colors[1]
+            marker.color.b = colors[2]
+            marker.color.g = colors[3]
+
+            marker.pose.orientation.w = 1.0
+            marker.pose.position.x = waypoint.target_pose.pose.position.x
+            marker.pose.position.y = waypoint.target_pose.pose.position.y
+            marker.pose.position.z = waypoint.target_pose.pose.position.z
+
+            return marker
+
+        except Exception as ex:
+            rospy.logwarn('PatrolNode.__setMarker- ', ex.message)
+
+    def __setTextMarker(self, id, waypoint, colors = [1,0,0,0]):
+        try:
+            marker = Marker()
+            marker.header.frame_id = '/map'
+            marker.header.stamp = rospy.Time.now()
+            marker.ns = 'patrol'
+            marker.id = id + len(self.__waypoints)
+            marker.type = marker.TEXT_VIEW_FACING
+            marker.action = marker.ADD
+            marker.text = str(id)
             marker.scale.x = 0.2
             marker.scale.y = 0.2
             marker.scale.z = 0.2
