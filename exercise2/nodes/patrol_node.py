@@ -62,9 +62,6 @@ class PatrolController(GenericNode):
             for n in range(len(waypoints)):
                 if not self.__stopFlag:
                     rospy.logwarn('PatrolNode.patrol - Patrolling to node {0}'.format(str(n)))
-                    #while self.__awaitingGoalCompletion:
-                    #    self.sleep()
-                    #    rospy.logwarn('waiting')
 
                     self.__actionClient.send_goal(self.__getGoal(waypoints[n]),
                                                   active_cb=self.__OnGoalStarted(),
@@ -107,8 +104,6 @@ class PatrolController(GenericNode):
 
     def isPatrolling(self):
         return self.__isPatrolling
-
-
 
 
     def __loadWaypointsFromCsv(self):
@@ -207,25 +202,7 @@ class PatrolController(GenericNode):
             rospy.logwarn('Preparing to deploy Markers')
             for n in range(len(waypoints)):
                 waypoint = self.__getGoal(waypoints[n])
-                marker = Marker()
-                marker.header.frame_id = '/map'
-                marker.header.stamp = rospy.Time.now()
-                marker.ns = 'patrol'
-                marker.id = n
-                marker.type = marker.SPHERE
-                marker.action = marker.ADD
-                marker.scale.x = 0.2
-                marker.scale.y = 0.2
-                marker.scale.z = 0.2
-                marker.color.a = 1.0
-                marker.color.r = random.uniform(0.0, 1.0)
-                marker.color.b = random.uniform(0.0, 1.0)
-                marker.color.g = random.uniform(0.0, 1.0)
-
-                marker.pose.orientation.w = 1.0
-                marker.pose.position.x = waypoint.target_pose.pose.position.x
-                marker.pose.position.y = waypoint.target_pose.pose.position.y
-                marker.pose.position.z = waypoint.target_pose.pose.position.z
+                marker = self.__setMarker(n, waypoint, [1.0, random.uniform(0.0, 1.0), random.uniform(0.0, 1.0), random.uniform(0.0, 1.0)])
 
                 markers = len(self.__markerArray.markers)
                 if markers > len(waypoints):
@@ -233,7 +210,36 @@ class PatrolController(GenericNode):
                 self.__markerArray.markers.append(marker)
 
             self.__markerPublisher.publish(self.__markerArray)
+
             rospy.logwarn('Markers are set')
 
         except Exception as ex:
             rospy.logwarn('PatrolNode.__setMarkers - ', ex.message)
+
+
+    def __setMarker(self, id, waypoint, colors = [1,0,0,0]):
+        try:
+            marker = Marker()
+            marker.header.frame_id = '/map'
+            marker.header.stamp = rospy.Time.now()
+            marker.ns = 'patrol'
+            marker.id = id
+            marker.type = marker.SPHERE
+            marker.action = marker.ADD
+            marker.scale.x = 0.2
+            marker.scale.y = 0.2
+            marker.scale.z = 0.2
+            marker.color.a = colors[0]
+            marker.color.r = colors[1]
+            marker.color.b = colors[2]
+            marker.color.g = colors[3]
+
+            marker.pose.orientation.w = 1.0
+            marker.pose.position.x = waypoint.target_pose.pose.position.x
+            marker.pose.position.y = waypoint.target_pose.pose.position.y
+            marker.pose.position.z = waypoint.target_pose.pose.position.z
+
+            return marker
+
+        except Exception as ex:
+            rospy.logwarn('PatrolNode.__setMarker- ', ex.message)
