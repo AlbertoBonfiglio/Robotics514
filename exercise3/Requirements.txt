@@ -1,0 +1,37 @@
+Purpose
+
+This is the last programming exercise for the class, designed to give you some experience with ROS.
+For this one, we're going to do some sensor interpretation.
+Preparation
+
+Make sure you're happy with the previous set of exercises. If you like, look at some of your peers' solutions a
+nd talk about them.
+
+Assignment
+
+Download the new programming exercise 2 tarball at this web site corresponding to your name.
+These are the solutions to the previous assignment that we're going to ask for feedback on.
+For each of them, untar the file, and test the solution. Fill in this form with your evaluation.
+
+Write some code that will drive you robot around a world and identify all obstacles that are circles with a 1m diameter.
+You should publish an rviz marker for each obstacle you find, numbering them consecutively in the display.
+
+Grading
+TO BE ANNOUNCED
+
+Thoughts
+
+This exercise is pretty loosely specified. That's on purpose, to give you some latitude on what you actually do.
+Write down a more precise specification of the exercise for yourself before you start.
+If we don't specify it, you get to make it up.
+You can assume that you have a map, although this map might change from run to run (don't hardcode locations in the map).
+Wandering about randomly as you search for obstacles is fine, but moving more purposefully is better.
+You can assume that the obstacles you're trying to find are in the map.
+Share maps with your peers, to test each other's code. Come up with some example maps to show your system at work.
+I'd suggest a Hough Transform to find the circles from a laser scan. Don't write it from scratch, unless you really,
+really have to. Collaboration is fine here.
+
+The Rules
+
+Collaborate on the low-level details but the main system should be your own, as should at least one map that
+demonstrates your system at work.
