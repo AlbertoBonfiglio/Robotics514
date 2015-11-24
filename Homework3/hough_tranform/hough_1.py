@@ -60,12 +60,12 @@ pmSetDestination(EDGES)
 pmSetFormula("sqrt(sqr(s1(x,y)-s1(x-1,y-1))+sqr(s1(x-1,y)-s1(x,y-1)))")
 pmCompute()
 
-# Dimensions of Hough array:
+# Dimensions of hough_tranform array:
 HM = 128  # number of different rho values
 HN = 128  # number of different theta values
 
-HRow = HM*[0.0]  # an empty row of the Hough array.
-H = [HRow[:] for i in range(HN)] # The whole, empty Hough array
+HRow = HM*[0.0]  # an empty row of the hough_tranform array.
+H = [HRow[:] for i in range(HN)] # The whole, empty hough_tranform array
 EDGE_THRESH = 50 # Only pixels with edge value greater get to vote
 HIT_THRESH = 1   # Pixels must lie within distance of 1 (pixel width)
                  # of a line for that line to receive the vote.
@@ -102,7 +102,7 @@ def houghXform():
 
 def showHough():
   global H
-  temp = pmNewImage(0, "Hough array", HM, HN, 0, 0, 0)
+  temp = pmNewImage(0, "hough_tranform array", HM, HN, 0, 0, 0)
   pmPositionWindow(temp, 500, 500, 400, 400)
   for i in range(2): pmZoom(temp, 200, 200)
   for rho_idx in range(HM):
