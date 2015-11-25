@@ -7,7 +7,8 @@ from skimage.feature import canny
 from skimage import data
 
 
-def test_p():
+def test_probabilistic():
+    #Source: http://opencv-python-tutroals.readthedocs.org/en/latest/py_tutorials/py_imgproc/py_houghlines/py_houghlines.html
     try:
         img = cv2.imread('../images/chk.png')
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -28,6 +29,7 @@ def test_p():
 
 
 def test():
+    #Source: http://opencv-python-tutroals.readthedocs.org/en/latest/py_tutorials/py_imgproc/py_houghlines/py_houghlines.html
     try:
         orig = cv2.imread('../images/empire.png')
         img = cv2.imread('../images/empire.png')
@@ -67,45 +69,18 @@ def test():
     except Exception as ex:
         print(ex.message)
 
-def test_circles():
 
-    bgr_img = cv2.imread('b.jpg') # read as it is
-
-    if bgr_img.shape[-1] == 3:           # color image
-        b,g,r = cv2.split(bgr_img)       # get b,g,r
-        rgb_img = cv2.merge([r,g,b])     # switch it to rgb
-        gray_img = cv2.cvtColor(bgr_img, cv2.COLOR_BGR2GRAY)
-    else:
-        gray_img = bgr_img
-
-    img = cv2.medianBlur(gray_img, 5)
-    cimg = cv2.cvtColor(img,cv2.COLOR_GRAY2BGR)
-
-    circles = cv2.HoughCircles(img,cv2.HOUGH_GRADIENT,1,20,
-                                param1=50,param2=30,minRadius=0,maxRadius=0)
-
-    circles = np.uint16(np.around(circles))
-
-    for i in circles[0,:]:
-        # draw the outer circle
-        cv2.circle(cimg,(i[0],i[1]),i[2],(0,255,0),2)
-        # draw the center of the circle
-        cv2.circle(cimg,(i[0],i[1]),2,(0,0,255),3)
-
-    plt.subplot(121),plt.imshow(rgb_img)
-    plt.title('Input Image'), plt.xticks([]), plt.yticks([])
-    plt.subplot(122),plt.imshow(cimg)
-    plt.title('Hough Transform'), plt.xticks([]), plt.yticks([])
-    plt.show()
 
 def skimage_transform():
-    image = np.zeros((100, 100))
+    #Source: http://scikit-image.org/docs/dev/auto_examples/plot_line_hough_transform.html
+    image = data.imread('../images/chk.png', True)
+    #image = canny(image, 2, 1, 2)
 
     # Classic straight-line Hough transform
 
-    idx = np.arange(25, 75)
-    image[idx[::-1], idx] = 255
-    image[idx, idx] = 255
+    #idx = np.arange(25, 75)
+    #image[idx[::-1], idx] = 255
+    #image[idx, idx] = 255
 
     h, theta, d = hough_line(image)
 
@@ -166,5 +141,6 @@ def skimage_transform():
     plt.show()
 
 if __name__ == '__main__':
-    test()
-    test_p()
+    #test()
+    #test_probabilistic()
+    skimage_transform()

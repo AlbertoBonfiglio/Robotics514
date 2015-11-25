@@ -5,8 +5,11 @@ Larger values mean more uncertainty. Zero values mean perfect movement or perfec
 The robot moves using the move function, which takes a distance (positive or negative) as an argument.
 The Kalman filter is initialized with values for A, B, and C (the movement and sensor model parameters),
 R, Q (the variances of the error in movement and sensing), and an initial mean and variance.
+
 You update it using the update function, which takes an action (how far you told the robot to move) and the sensor
-reading taken after the movement. The values for these parameters in the example file are wrong.
+reading taken after the movement.
+
+The values for these parameters in the example file are wrong.
 Fill in some more appropriate values, run the code, and verify that the mean of the filter prediction approaches the
 actual position of the robot.
 
@@ -25,4 +28,6 @@ Show at least one image where the Hough transform works well, and one for which 
 
 What to Hand In
 
-A tarball with all of the code you wrote, the images you used, and a PDF document with your plots and discussion. Turn it in to the TEACH web site, as usual.
+A tarball with all of the code you wrote, the images you used,
+and a PDF document with your plots and discussion.
+Turn it in to the TEACH web site, as usual.
