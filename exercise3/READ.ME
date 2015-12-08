@@ -1,0 +1,21 @@
+Disclaimer
+    - portions of the nodes code were derived from examples found in "Programming Robots with ROS"
+    - a possible navigating solution was discusses with Wassim Bech, Fernando De La Garza Arreguin,
+      John and the TA.
+    - A different implementation was chosen
+    - it is assumed that ros indigo is installed and configured ant that the ros environment is correclty
+        sourced when opening a terminal window.
+    - Make sure the Linux package 'espeak' (sudo apt-get install espeak)
+        is installed and correctly configured
+    - Make sure ROS Package Frontier-Exploration id installed and configured correctly
+
+    INSTRUCTIONS
+    - copy src in a working workspace (e.g. /home/john/ws_test)
+    - navigate to the workspace (e.g. cd ~/home/john/ws_test)
+    - source the environment (e.g. source devel/setup.bash)
+    - type roslaunch exercise3 system.launch
+    - In Rviz use the publishing point tool to publish points outlining the exploration boundaries and a starting point
+    -       Robot should start exploring
+    -       Occasionally the robot will be stuck. I believe it's a FE package problem as it was happening without
+    -       any of my nodes running
+    -       Robot Explores better if the published points are within the map boundaries ()

@@ -1,23 +1,8 @@
 Purpose
-
-This is the last programming exercise for the class, designed to give you some experience with ROS.
-For this one, we're going to do some sensor interpretation.
-Preparation
-
-Make sure you're happy with the previous set of exercises. If you like, look at some of your peers' solutions a
-nd talk about them.
-
-Assignment
-
-Download the new programming exercise 2 tarball at this web site corresponding to your name.
-These are the solutions to the previous assignment that we're going to ask for feedback on.
-For each of them, untar the file, and test the solution. Fill in this form with your evaluation.
-
-Write some code that will drive you robot around a world and identify all obstacles that are circles with a 1m diameter.
+Write some code that will drive you robot around a world and identify all obstacles
+that are circles with a 1m diameter.
 You should publish an rviz marker for each obstacle you find, numbering them consecutively in the display.
 
-Grading
-TO BE ANNOUNCED
 
 Thoughts
 

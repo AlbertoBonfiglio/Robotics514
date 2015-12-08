@@ -13,14 +13,13 @@
   <arg name="3d_sensor"  default="$(optenv TURTLEBOT_3D_SENSOR kinect)"/>  <!-- kinect, asus_xtion_pro -->
 
   <!-- Name of the map to use (without path nor extension) and initial position -->
+  <arg name="map_file"       default=" $(find exercise3)/maps/italy.yaml"/>
+  <arg name="world_file"     default=" $(find exercise3)/maps/italy.world"/>
 
-  <arg name="map_file"       default=" $(env TURTLEBOT_STAGE_MAP_FILE)"/> <!-- robopark_plan -->
-  <arg name="world_file"     default=" $(env TURTLEBOT_STAGE_WORLD_FILE)"/>
-
-
-  <arg name="initial_pose_x" default="2.0"/>
-  <arg name="initial_pose_y" default="2.0"/>
+  <arg name="initial_pose_x" default="9.8"/>
+  <arg name="initial_pose_y" default="31.5"/>
   <arg name="initial_pose_a" default="0.0"/>
+
 
   <param name="/use_sim_time" value="true"/>
   <!--  ******************** Stage ********************  -->
@@ -37,7 +36,8 @@
           base_watchdog_timeout : time (s) after receiving the last command on cmd_vel before stopping the robot
         Args:
           -g : run in headless mode.
-  --> 
+  -->
+
   <node pkg="stage_ros" type="stageros" name="stageros" args="$(arg world_file)">
     <param name="base_watchdog_timeout" value="0.5"/>
     <remap from="odom" to="odom"/>
@@ -79,6 +79,8 @@
     <arg name="initial_pose_a" value="$(arg initial_pose_a)"/>
   </include>
 
-  <!--  **************** Visualisation ****************  -->
-  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find turtlebot_stage)/rviz/robot_navigation.rviz"/>
+
+  <!--  **************** Visualisation **************** -->
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find exercise3)/resources/robot_navigation.rviz"/>
+
 </launch>

@@ -10,7 +10,7 @@ from skimage import data
 def test_probabilistic():
     #Source: http://opencv-python-tutroals.readthedocs.org/en/latest/py_tutorials/py_imgproc/py_houghlines/py_houghlines.html
     try:
-        img = cv2.imread('../images/chk.png')
+        img = cv2.imread('../images/window.jpg')
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         edges = cv2.Canny(gray, 50, 150, apertureSize = 3)
 
@@ -31,12 +31,12 @@ def test_probabilistic():
 def test():
     #Source: http://opencv-python-tutroals.readthedocs.org/en/latest/py_tutorials/py_imgproc/py_houghlines/py_houghlines.html
     try:
-        orig = cv2.imread('../images/empire.png')
-        img = cv2.imread('../images/empire.png')
+        orig = cv2.imread('../images/AMFGP02lg.jpg')
+        img = cv2.imread('../images/AMFGP02lg.jpg')
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-        edges = cv2.Canny(gray, 50, 150, apertureSize = 3)
+        edges = cv2.Canny(gray, 50, 250, apertureSize = 3)
 
-        lines = cv2.HoughLines(edges, 1, np.pi/180, 50)
+        lines = cv2.HoughLines(edges, 1, np.pi/180, 75)
 
         for rho, theta in lines[0]:
             a = np.cos(theta)
@@ -73,18 +73,12 @@ def test():
 
 def skimage_transform():
     #Source: http://scikit-image.org/docs/dev/auto_examples/plot_line_hough_transform.html
-    image = data.imread('../images/chk.png', True)
-    #image = canny(image, 2, 1, 2)
+    image = data.imread('../images/window.jpg', True)
 
     # Classic straight-line Hough transform
-
-    #idx = np.arange(25, 75)
-    #image[idx[::-1], idx] = 255
-    #image[idx, idx] = 255
-
     h, theta, d = hough_line(image)
 
-    fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(8,4))
+    fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(8, 4))
 
     ax1.imshow(image, cmap=plt.cm.gray)
     ax1.set_title('Input image')
@@ -110,12 +104,14 @@ def skimage_transform():
     ax3.set_title('Detected lines')
     ax3.set_axis_off()
 
+
+
+
     # Line finding, using the Probabilistic Hough Transform
 
     image = data.camera()
-    edges = canny(image, 2, 1, 25)
-    lines = probabilistic_hough_line(edges, threshold=10, line_length=5,
-                                     line_gap=3)
+    edges = canny(image,2, 1, 25)
+    lines = probabilistic_hough_line(edges, threshold=10, line_length=100, line_gap=3)
 
     fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(8,4), sharex=True, sharey=True)
 
@@ -138,9 +134,67 @@ def skimage_transform():
     ax3.set_title('Probabilistic Hough')
     ax3.set_axis_off()
     ax3.set_adjustable('box-forced')
+
+
+    image = data.imread('../images/AMFGP02lg.jpg', True)
+    edges = canny(image, 2, 1, 25)
+    lines = probabilistic_hough_line(edges, threshold=10, line_length=100, line_gap=3)
+
+    fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(8,4), sharex=True, sharey=True)
+
+    ax1.imshow(image, cmap=plt.cm.gray)
+    ax1.set_title('Input image')
+    ax1.set_axis_off()
+    ax1.set_adjustable('box-forced')
+
+    ax2.imshow(edges, cmap=plt.cm.gray)
+    ax2.set_title('Canny edges')
+    ax2.set_axis_off()
+    ax2.set_adjustable('box-forced')
+
+    ax3.imshow(edges * 0)
+
+    for line in lines:
+        p0, p1 = line
+        ax3.plot((p0[0], p1[0]), (p0[1], p1[1]))
+
+    ax3.set_title('Probabilistic Hough')
+    ax3.set_axis_off()
+    ax3.set_adjustable('box-forced')
+
+
+    image = data.imread('../images/window.jpg', True)
+    edges = canny(image, 2, 1, 25)
+    lines = probabilistic_hough_line(edges, threshold=10, line_length=100, line_gap=1)
+
+    fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(8,4), sharex=True, sharey=True)
+
+    ax1.imshow(image, cmap=plt.cm.gray)
+    ax1.set_title('Input image')
+    ax1.set_axis_off()
+    ax1.set_adjustable('box-forced')
+
+    ax2.imshow(edges, cmap=plt.cm.gray)
+    ax2.set_title('Canny edges')
+    ax2.set_axis_off()
+    ax2.set_adjustable('box-forced')
+
+    ax3.imshow(edges * 0)
+
+    for line in lines:
+        p0, p1 = line
+        ax3.plot((p0[0], p1[0]), (p0[1], p1[1]))
+
+    ax3.set_title('Probabilistic Hough')
+    ax3.set_axis_off()
+    ax3.set_adjustable('box-forced')
+
+
     plt.show()
 
 if __name__ == '__main__':
     #test()
-    #test_probabilistic()
+    test_probabilistic()
+
+    #Ended up using the skimage implementation
     skimage_transform()
