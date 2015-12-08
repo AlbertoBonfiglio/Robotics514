@@ -16,6 +16,7 @@ from sensor_msgs.msg import LaserScan
 from move_base_msgs.msg import MoveBaseAction, MoveBaseGoal
 from visualization_msgs.msg import Marker, MarkerArray
 from laser_geometry import LaserProjection
+from nav_msgs.msg import OccupancyGrid
 
 import sensor_msgs.point_cloud2 as pc2
 from sensor_msgs.msg import PointCloud2, PointField
@@ -65,11 +66,13 @@ class PatrolController(GenericNode):
         self.__markerPublisher = rospy.Publisher('visualization_marker_array', MarkerArray, queue_size=100)
         self.__markerArray = MarkerArray()
 
-        self.__scanner = rospy.Subscriber('scan', LaserScan, self.__scanCallback)
-        self.__laser_projector = LaserProjection()
 
+        self.__costmapListener = rospy.Subscriber('/move_base/local_costmap/costmap', OccupancyGrid, self.__costmapCallback)
         self.circlefinder = CircleFinder(1)
 
+        #Not used for exercise 3 but kept for further development
+        self.__scanner = rospy.Subscriber('scan', LaserScan, self.__scanCallback)
+        self.__laser_projector = LaserProjection()
 
 
     def startPatrol(self):
@@ -220,17 +223,18 @@ class PatrolController(GenericNode):
         except Exception as ex:
             rospy.logwarn('PatrolNode.__keysCallback - ', ex.message)
 
+
     def __scanCallback(self, msg):
-        #self.__rangeAhead = min(float(r) for r in msg.ranges)
-        #print msg.ranges
-        #cloud = self.__laser_projector.transformLaserScanToPointCloud(msg)
-        pcloud = PointCloud2()
-
-        self.circlefinder.findCircle(msg.ranges)
-
-        #cloud = self.__laser_projector.projectLaser(msg)
-        #print cloud
         pass
+        self.circlefinder.findCircle(msg.ranges)
+        pass
+
+
+    def __costmapCallback(self, msg):
+        print msg.data
+        self.circlefinder.findCircle(msg.data)
+        pass
+
 
     def __getGoal(self, data):
         _waypoint = MoveBaseGoal()
