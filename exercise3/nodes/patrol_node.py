@@ -4,7 +4,7 @@ import csv
 import pkg_resources
 import actionlib
 import random
-import matplotlib.pyplot as plt
+
 
 from std_msgs.msg import String
 from generic_node import GenericNode
@@ -17,16 +17,6 @@ from move_base_msgs.msg import MoveBaseAction, MoveBaseGoal
 from visualization_msgs.msg import Marker, MarkerArray
 from laser_geometry import LaserProjection
 from nav_msgs.msg import OccupancyGrid
-
-import sensor_msgs.point_cloud2 as pc2
-from sensor_msgs.msg import PointCloud2, PointField
-from roslib import message
-
-#from geometry_msgs.msg import Twist
-#from geometry_msgs.msg import PoseWithCovarianceStamped, Quaternion
-#from tf.transformations import quaternion_from_euler, euler_from_quaternion
-#from math import radians, degrees
-
 
 
 class PatrolController(GenericNode):
@@ -44,6 +34,8 @@ class PatrolController(GenericNode):
     __awaitingGoalCompletion = False
 
     __marvin = None
+    __indianaJones = Indy()
+
     __markerPublisher = None
     __markerArray = None
 
@@ -226,14 +218,21 @@ class PatrolController(GenericNode):
 
     def __scanCallback(self, msg):
         pass
-        self.circlefinder.findCircle(msg.ranges)
-        pass
 
 
     def __costmapCallback(self, msg):
         print msg.data
-        self.circlefinder.findCircle(msg.data)
-        pass
+        circle = self.circlefinder.findCircle(msg.data)
+        if circle is not None:
+            rospy.loginfo('Circle found :-)')
+            if self.__isNewCircle(circle) == True:
+                self.__addMarkerForCircle(circle)
+                self.__indianaJones.sayRandomSentence()
+            else:
+                rospy.loginfo('Circle was already found :-( ')
+
+        else:
+            rospy.loginfo('No circle found in this costmap :-/')
 
 
     def __getGoal(self, data):
@@ -263,6 +262,14 @@ class PatrolController(GenericNode):
     def __OnGoalFeedback(self):
         rospy.loginfo('Goal is giving feedback')
 
+    def __isNewCircle(self, circle):
+        return True
+
+    def __addMarkerForCircle(self, circle):
+        pass
+
+
+
     def __setMarkers(self, waypoints):
         try:
             #self.__markerArray.markers
@@ -284,7 +291,6 @@ class PatrolController(GenericNode):
 
         except Exception as ex:
             rospy.logwarn('PatrolNode.__setMarkers - ', ex.message)
-
 
     def __setMarker(self, id, waypoint, colors = [1,0,0,0]):
         try:

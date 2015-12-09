@@ -1,8 +1,10 @@
 Disclaimer
     - portions of the nodes code were derived from examples found in "Programming Robots with ROS"
     - a possible navigating solution was discusses with Wassim Bech, Fernando De La Garza Arreguin,
-      John and the TA.
-    - A different implementation was chosen
+      John Morrow, Steph Walker and the TA.
+    - An implementation based on William Curran was chosen (detect costmap). Other possible implementations that could
+    - be tried in the future include subscribing to other topics such as move_base/obstacles.
+    - The hough transform is from OpenCV
     - it is assumed that ros indigo is installed and configured ant that the ros environment is correclty
         sourced when opening a terminal window.
     - Make sure the Linux package 'espeak' (sudo apt-get install espeak)
@@ -23,3 +25,11 @@ Disclaimer
     -           3) Ctrl-C, up arrow, return
     -           4) Give me full points anyway because it's the package not my code and drink a beer
     -       Robot Explores better if the published points are within the map boundaries
+    - Robot will let you know if a circle is detected by citing Indiana Jones quotes
+
+    Additional:
+    - Robot will detect circles. At this time it will detect a wide variety of circles regardless of size
+    - and it does not places markers. A circle radius and coordinates inside the costmap is returned. It probably needs
+    - to be tfed to translate from costmap coords to an actual pose quaternion to be used in placing markers
+    - Also code needs to be added to make sure the markers are placed only once.
+
